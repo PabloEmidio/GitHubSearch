@@ -7,15 +7,15 @@ use = UseGitHubAPI()
 sg.theme('DarkBlue')
 layout = [
     [
-        sg.Text('User Name: '), sg.In(key='input', text_color='Black'), sg.B('Search', key='search')
+        sg.Text('User Name: '), sg.In(key='input', text_color='Black'), 
+        sg.B('Search', key='search')
     ],
     [
         sg.Multiline(key='test', size=(65, 30), text_color='Black')
     ],
     [
-        sg.B('go to perfil', key='go', visible=False)
-    ]
-]
+        sg.B('go to profile', key='go', visible=False)
+    ]]
 
 window = sg.Window('GitHub Search', layout)
 
