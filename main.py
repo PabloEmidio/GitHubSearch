@@ -31,6 +31,6 @@ while True:
         window['go'].update(visible=True)
     
     if event == 'go':
-        url = use.returnPerfilLink()
+        url = use.returnProfilelLink()
         webbrowser.open(url)
 

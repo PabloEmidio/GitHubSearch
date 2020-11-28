@@ -38,5 +38,5 @@ class UseGitHubAPI:
             'URL': info['html_url']}
         
         
-    def returnPerfilLink(self):
+    def returnProfileLink(self):
         return self.selectedFields['URL']
