@@ -15,7 +15,7 @@ Now just knowing the name, you'll have profiles and repositories's informations 
   <h4>Searching for profile</h3>
   <img align="center" src="media/searching.png"><br>
   <h4>Taking repositorie's informations</h3>
-  <img src="media/viewing_repositorie.png" align="center" ><br>
+  <img src="media/viewing_repository.png" align="center" ><br>
 </h1>
 
 # ⚈ Tech Stack
