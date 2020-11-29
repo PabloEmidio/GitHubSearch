@@ -56,17 +56,17 @@ class UseGitHubAPI:
     
     
     def _takeRepositoriesInfo(self):
-        if self._takenProfileJson == None:
-            ...
-        else:
+        try:
             url = self._takenProfileJson['url'] + '/repos'
             with requests.get(url) as response:
                 self._takenRepositoriesJson = json.loads(response.text)
-            
+            return True
+        except:
+            return False
             
     def _selectRepositorieFields(self, info, pos=0):
         if pos>len(info)-1:
-            ...
+            return False
         else:    
             info = info[pos]
             self._selectedRepositorieFields = {
@@ -84,14 +84,16 @@ class UseGitHubAPI:
                 'Git url': info['git_url'],
                 'SSH url': info['ssh_url'],
                 'Clone url': info['clone_url']}
+            return True
         
 
     def returnRepositorieInfo(self, pos):
         try:
-            self._takeRepositoriesInfo()
-            self._selectRepositorieFields(info=self._takenRepositoriesJson, pos=pos)
-            self.readable = self.turnReadable(self._selectedRepositorieFields)
-            return self.readable
+            if self._takeRepositoriesInfo() and self._selectRepositorieFields(info=self._takenRepositoriesJson, pos=pos):
+                self.readable = self.turnReadable(self._selectedRepositorieFields)
+                return self.readable
+            else:
+                return False
         except:
-            return 'not found'
+            return False
 

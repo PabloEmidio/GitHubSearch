@@ -52,13 +52,27 @@ while True:
         
     if event == 'next':
         repositorieNow +=1
-        window['print_info'].update(use.returnRepositorieInfo(repositorieNow))
+        print(f'in this next is {repositorieNow}')
+        isrepositorie = use.returnRepositorieInfo(repositorieNow)
+        if type(isrepositorie) == str:
+            window['print_info'].update(isrepositorie)
+        else:
+            repositorieNow -=1
+            print(f'gave wong in this next: {repositorieNow}')
     
     if event == 'previous':
         repositorieNow -=1
+        print(f'in this previus is {repositorieNow}')
         if repositorieNow>0:
-            window['print_info'].update(use.returnRepositorieInfo(repositorieNow))
-            ...
+            isrepositorie = use.returnRepositorieInfo(repositorieNow)
+            if type(isrepositorie) == str:
+                window['print_info'].update(isrepositorie)
+            else:
+                repositorieNow +=1
+                print(f'gave wong in this next: {repositorieNow}')
+
         else:
             repositorieNow +=1
+            print(f'gave wong in this next: {repositorieNow}')
+
 
