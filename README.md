@@ -8,13 +8,14 @@
 # ⚈ About
 This is a program for searching GitHub's profiles using GitHub's API; It was made to facilitating dev's search for profiles informations.
 Now just knowing the name, you'll have profiles and repositories's informations of people that you'd like searching.
+***Able to cloning repositories***
 
 ## Some Screenshots
 
 <h1 align="center">
   <h4>Searching for profile</h3>
   <img align="center" src="media/searching.png"><br>
-  <h4>Taking repositorie's informations</h3>
+  <h4>Taking repository's informations</h3>
   <img src="media/viewing_repository.png" align="center" ><br>
 </h1>
 
