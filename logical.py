@@ -62,15 +62,14 @@ class UseGitHubAPI:
             url = self._takenProfileJson['url'] + '/repos'
             with requests.get(url) as response:
                 self._takenRepositoriesJson = json.loads(response.text)
-            self._takenRepositoriesJson
             
             
-    def _selectRepositoriesFields(self, info, pos=0):
+    def _selectRepositorieFields(self, info, pos=0):
         if pos>len(info)-1:
             ...
         else:    
             info = info[pos]
-            self._selectedRepositoriesFields = {
+            self._selectedRepositorieFields = {
                 'Name': info['name'],
                 'Description': info['description'],
                 'Language': info['language'],
@@ -90,8 +89,8 @@ class UseGitHubAPI:
     def returnRepositorieInfo(self, pos):
         try:
             self._takeRepositoriesInfo()
-            self._selectRepositoriesFields(info=self._takenRepositoriesJson, pos=pos)
-            self.readable = self.turnReadable(self._selectedRepositoriesFields)
+            self._selectRepositorieFields(info=self._takenRepositoriesJson, pos=pos)
+            self.readable = self.turnReadable(self._selectedRepositorieFields)
             return self.readable
         except:
             return 'not found'
