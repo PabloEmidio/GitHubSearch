@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 from logical import UseGitHubAPI
-import webbrowser
+import webbrowser, os
 
 use = UseGitHubAPI()
 
@@ -12,12 +12,14 @@ layout = [
         sg.B('view repositories', key='repositories', disabled=True)
     ],
     [
-        sg.Multiline(key='print_info', size=(90, 30), text_color='Black'),
+        sg.Multiline(key='print_info', size=(90, 30), text_color='Black', disabled=True),
     ],
     [
         sg.B('previous', key='previous', disabled=True),
         sg.B('go to profile', key='go', disabled=True),  
-        sg.B('next', key='next', disabled=True)
+        sg.B('next', key='next', disabled=True),
+        sg.B('git clone', key='clone', disabled=True, pad=(('300', '3'), (None)))
+
     ]]
 
 window = sg.Window('GitHub Search', layout)
@@ -35,6 +37,8 @@ while True:
         window['repositories'].update(disabled=False)
         window['previous'].update(disabled=True)
         window['next'].update(disabled=True)
+        window['clone'].update(disabled=True)
+
     
     if event == 'go':
         try:
@@ -44,35 +48,39 @@ while True:
             ...
             
     if event == 'repositories':
-        repositorieNow = 0
-        window['print_info'].update(use.returnRepositorieInfo(repositorieNow))
+        repositoryNow = 0
+        window['print_info'].update(use.returnRepositoryInfo(repositoryNow))
         window['previous'].update(disabled=False)
         window['next'].update(disabled=False)
+        window['clone'].update(disabled=False)
+
         
         
     if event == 'next':
-        repositorieNow +=1
-        print(f'in this next is {repositorieNow}')
-        isrepositorie = use.returnRepositorieInfo(repositorieNow)
-        if type(isrepositorie) == str:
-            window['print_info'].update(isrepositorie)
+        repositoryNow +=1
+        isrepository = use.returnRepositoryInfo(repositoryNow)
+        if type(isrepository) == str:
+            window['print_info'].update(isrepository)
         else:
-            repositorieNow -=1
-            print(f'gave wong in this next: {repositorieNow}')
+            repositoryNow -=1
     
     if event == 'previous':
-        repositorieNow -=1
-        print(f'in this previus is {repositorieNow}')
-        if repositorieNow>0:
-            isrepositorie = use.returnRepositorieInfo(repositorieNow)
-            if type(isrepositorie) == str:
-                window['print_info'].update(isrepositorie)
+        repositoryNow -=1
+        if repositoryNow>=0:
+            isrepository = use.returnRepositoryInfo(repositoryNow)
+            if type(isrepository) == str:
+                window['print_info'].update(isrepository)
             else:
-                repositorieNow +=1
-                print(f'gave wong in this next: {repositorieNow}')
-
+                repositoryNow +=1
         else:
-            repositorieNow +=1
-            print(f'gave wong in this next: {repositorieNow}')
+            repositoryNow +=1
 
-
+    if event == 'clone':
+        clone_url = use.returnCloneLink()
+        try:
+            os.system(f'cd ~/ && git clone {clone_url}')
+            sg.popup('Repository was cloned with success')
+        except:
+            sg.popup('Process gave wrong\nCheck if you have git installed on your computer')
+         
+window.close()

@@ -64,12 +64,12 @@ class UseGitHubAPI:
         except:
             return False
             
-    def _selectRepositorieFields(self, info, pos=0):
+    def _selectRepositoryFields(self, info, pos=0):
         if pos>len(info)-1:
             return False
         else:    
             info = info[pos]
-            self._selectedRepositorieFields = {
+            self._selectedRepositoryFields = {
                 'Name': info['name'],
                 'Description': info['description'],
                 'Language': info['language'],
@@ -87,13 +87,16 @@ class UseGitHubAPI:
             return True
         
 
-    def returnRepositorieInfo(self, pos):
+    def returnRepositoryInfo(self, pos):
         try:
-            if self._takeRepositoriesInfo() and self._selectRepositorieFields(info=self._takenRepositoriesJson, pos=pos):
-                self.readable = self.turnReadable(self._selectedRepositorieFields)
+            if self._takeRepositoriesInfo() and self._selectRepositoryFields(info=self._takenRepositoriesJson, pos=pos):
+                self.readable = self.turnReadable(self._selectedRepositoryFields)
                 return self.readable
             else:
                 return False
         except:
             return False
+    
+    def returnCloneLink(self):
+        return self._selectedRepositoryFields['Clone url']
 
