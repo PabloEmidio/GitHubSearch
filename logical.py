@@ -9,19 +9,8 @@ class UseGitHubAPI:
                 self._takenProfileJson = json.loads(response.text)
         except:
             ...
-    
-    
-    def returnProfileInfo(self, user=''):
-        try:
-            self._takeProfileInfo(user)
-            self._selectProfileFields(self._takenProfileJson)
-            self.readable = ''
-            self.readable = self.turnReadable(self._selectedProfileFields)
-            return self.readable
-        except:
-            return 'not found'
-    
-    
+        
+        
     def _selectProfileFields(self, info):
         self._selectedProfileFields = {
             'Name': info['name'],
@@ -40,10 +29,30 @@ class UseGitHubAPI:
             'public_gists': info['public_gists'],
             'Twitter': info['twitter_username'],
             'URL': info['html_url']}
-        
+    
+    
+    def returnProfileInfo(self, user=''):
+        try:
+            self._takeProfileInfo(user)
+            self._selectProfileFields(self._takenProfileJson)
+            self.readable = ''
+            self.readable = self.turnReadable(self._selectedProfileFields)
+            return self.readable
+        except:
+            return 'not found'
+    
         
     def returnProfileLink(self):
         return self._selectedProfileFields['URL']
+    
+    
+    def turnReadable(self, dictionary):
+        self.turningReadable = ''
+        for k, v in dictionary.items():
+            if v == '':
+                v = None
+            self.turningReadable = self.turningReadable + f'{k}: {v} \n\n'     
+        return self.turningReadable
     
     
     def _takeRepositoriesInfo(self):
@@ -54,6 +63,7 @@ class UseGitHubAPI:
             with requests.get(url) as response:
                 self._takenRepositoriesJson = json.loads(response.text)
             self._takenRepositoriesJson
+            
             
     def _selectRepositoriesFields(self, info, pos=0):
         if pos>len(info)-1:
@@ -85,13 +95,4 @@ class UseGitHubAPI:
             return self.readable
         except:
             return 'not found'
-        
-    
-    def turnReadable(self, dictionary):
-        self.turningReadable = ''
-        for k, v in dictionary.items():
-            if v == '':
-                v = None
-            self.turningReadable = self.turningReadable + f'{k}: {v} \n\n'     
-        return self.turningReadable
-            
+

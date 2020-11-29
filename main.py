@@ -29,7 +29,6 @@ while True:
         break
     
     if event == 'search':
-        
         searching = values['input'].replace(' ', '')
         window['print_info'].update(use.returnProfileInfo(searching))
         window['go'].update(disabled=False)
