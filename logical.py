@@ -1,4 +1,4 @@
-import requests, json
+import requests
 
 class UseGitHubAPI:
     
@@ -6,7 +6,7 @@ class UseGitHubAPI:
         url = f'https://api.github.com/users/{user}'
         try:
             with requests.get(url) as response:
-                self._takenProfileJson = json.loads(response.text)
+                self._takenProfileJson = response.json()
         except:
             ...
         
@@ -59,7 +59,7 @@ class UseGitHubAPI:
         try:
             url = self._takenProfileJson['url'] + '/repos'
             with requests.get(url) as response:
-                self._takenRepositoriesJson = json.loads(response.text)
+                self._takenRepositoriesJson = response.json()
             return True
         except:
             return False
