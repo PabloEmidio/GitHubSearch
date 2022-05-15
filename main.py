@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 from logical import UseGitHubAPI
 import webbrowser, os
 
-use = UseGitHubAPI()
+github_api = UseGitHubAPI()
 
 sg.theme('DarkBlue')
 layout = [
@@ -31,8 +31,9 @@ while True:
         break
     
     if event == 'search':
-        searching = values['input'].replace(' ', '')
-        window['print_info'].update(use.returnProfileInfo(searching))
+        user_name = values['input'].replace(' ', '')
+        github_api.user = user_name
+        window['print_info'].update(github_api.get_profile_info())
         window['go'].update(disabled=False)
         window['repositories'].update(disabled=False)
         window['previous'].update(disabled=True)
@@ -42,14 +43,14 @@ while True:
     
     if event == 'go':
         try:
-            url = use.returnProfileLink()
+            url = github_api.get_profile_url()
             webbrowser.open(url)
         except:
             ...
             
     if event == 'repositories':
-        repositoryNow = 0
-        window['print_info'].update(use.returnRepositoryInfo(repositoryNow))
+        repository_now = 0
+        window['print_info'].update(github_api.get_repository_info(repository_now))
         window['previous'].update(disabled=False)
         window['next'].update(disabled=False)
         window['clone'].update(disabled=False)
@@ -57,30 +58,30 @@ while True:
         
         
     if event == 'next':
-        repositoryNow +=1
-        isrepository = use.returnRepositoryInfo(repositoryNow)
-        if type(isrepository) == str:
-            window['print_info'].update(isrepository)
+        repository_now += 1
+        is_repository = github_api.get_repository_info(repository_now)
+        if isinstance(is_repository, str):
+            window['print_info'].update(is_repository)
         else:
-            repositoryNow -=1
+            repository_now -=1 
     
     if event == 'previous':
-        repositoryNow -=1
-        if repositoryNow>=0:
-            isrepository = use.returnRepositoryInfo(repositoryNow)
-            if type(isrepository) == str:
-                window['print_info'].update(isrepository)
+        repository_now -= 1
+        if repository_now >= 0:
+            is_repository = github_api.get_repository_info(repository_now)
+            if isinstance(is_repository, str):
+               window['print_info'].update(is_repository)
             else:
-                repositoryNow +=1
+               repository_now +=1
         else:
-            repositoryNow +=1
+            repository_now += 1
 
     if event == 'clone':
-        clone_url = use.returnCloneLink()
+        clone_url = github_api.get_clone_url(repository_now)
         try:
             os.system(f'cd ~/ && git clone {clone_url}')
             sg.popup('Repository was cloned with success')
         except:
             sg.popup('Process gave wrong\nCheck if you have git installed on your computer')
-         
+
 window.close()
